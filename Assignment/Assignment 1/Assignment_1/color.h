@@ -1,20 +1,40 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include<time.h>
+#ifndef COLOR_H
+#define COLOR_H
 
-// single struct with an array of 20 pointers to 'char' and an integer array with 20 elements
-struct CharAndInt
+#define red     "\033[1;31m"
+#define green   "\033[1;32m"
+#define yellow  "\033[1;33m"
+#define blue    "\033[1;34m"
+#define purple  "\033[1;35m"
+#define cyan    "\033[1;36m"
+#define gray    "\033[1;37m"
+#define bold    "\033[1;29m"
+#define magenta "\033[1;35m"
+#define reset   "\033[0m"
+
+#endif // COLOR_H
+
+/*
+
+void initINTARRAY(STRUCTLAB0 *c)
 {
-   char* charArray[20];
-   int intArray[20];
-};
-typedef struct CharAndInt STRUCTLAB0;
+    int i = 0 , ran = 0;
+    c->intArray[0] = 2700;
+    for(i=0;i<20;i=i+1)
+    {
+       c->intArray[i+1] = 2 * c->intArray[i];
+    }
+    //rand() % (max_number + 1 - minimum_number) + minimum_number
 
-/* prototype */
-void initINTARRAY(STRUCTLAB0 *c);
+    *(c->charArray) = i;
 
-int main()
-{
+    for(i=0;i<20;i=i+1)
+    {
+       ran = (rand()%25)+65;
+      // *(c->charArray + i) = ran;
+    }
+}
+
    int i = 0;
    // Use current time as seed for random generator
     srand(time(0));
@@ -45,7 +65,7 @@ int main()
 
 
 
-   /*
+
    // Char
    *x.charArray = 'A';
    *(x.charArray +1) = 'B';
@@ -54,26 +74,4 @@ int main()
    printf("&(x.charArray):  %d\n", &(x.charArray));
    printf("*(x.charArray+0):    %d\n", *x.charArray);
    printf("*(x.charArray+1):    %d\n", *(x.charArray+1));
-   */
-   return 0;
-}
-
-void initINTARRAY(STRUCTLAB0 *c)
-{
-    int i = 0 , ran = 0;
-    c->intArray[0] = 2700;
-    for(i=0;i<20;i=i+1)
-    {
-       c->intArray[i+1] = 2 * c->intArray[i];
-    }
-    //rand() % (max_number + 1 - minimum_number) + minimum_number
-
-    *(c->charArray) = i;
-
-    for(i=0;i<20;i=i+1)
-    {
-       ran = (rand()%25)+65;
-       *(c->charArray + i) = ran;
-    }
-}
-
+*/
