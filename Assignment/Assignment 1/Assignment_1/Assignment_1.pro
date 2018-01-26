@@ -17,4 +17,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp
 
 HEADERS += \
-    color.h
+    color.h \
+    supportassignment1.h

@@ -233,7 +233,8 @@ DIST          = ../../../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../5.10.0/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../5.10.0/gcc_64/mkspecs/features/yacc.prf \
 		../../../../5.10.0/gcc_64/mkspecs/features/lex.prf \
-		../Assignment_1/Assignment_1.pro ../Assignment_1/color.h ../Assignment_1/main.cpp
+		../Assignment_1/Assignment_1.pro ../Assignment_1/color.h \
+		../Assignment_1/supportassignment1.h ../Assignment_1/main.cpp
 QMAKE_TARGET  = Assignment_1
 DESTDIR       = 
 TARGET        = Assignment_1
@@ -627,7 +628,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../5.10.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Assignment_1/color.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Assignment_1/color.h ../Assignment_1/supportassignment1.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Assignment_1/main.cpp $(DISTDIR)/
 
 
@@ -676,7 +677,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-main.o: ../Assignment_1/main.cpp ../Assignment_1/color.h
+main.o: ../Assignment_1/main.cpp ../Assignment_1/color.h \
+		../Assignment_1/supportassignment1.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Assignment_1/main.cpp
 
 ####### Install
