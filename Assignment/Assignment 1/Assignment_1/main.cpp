@@ -4,11 +4,10 @@
 #include "color.h"
 #include "supportassignment1.h"
 
-// single struct with an array of 20 pointers to 'char' and an integer array with 20 elements
 void initHeader(void)
 {
-    printf(yellow"\t  CECS something with 3\n"reset);
-    printf(gray"\t    Lauro Cabral\n"reset);
+    printf(yellow"\t  CECS 326\n"reset);
+    printf(gray"\tLauro Cabral\n"reset);
 }
 
 int main()

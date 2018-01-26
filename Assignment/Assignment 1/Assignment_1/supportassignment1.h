@@ -25,7 +25,7 @@ void init_CHARPTR_ARRAY(myStruct* c)
     int i;
     for(i = 0; i < 20 ; i = i + 1)
     {
-        c->charArray[i] = new char[1];
+        c->charArray[i] = new char[c->intArray[i]];
         c->charArray[i][0] = (rand()%25)+65;
     }
 }
@@ -50,11 +50,11 @@ void print_CHARPTR_ARRAY(myStruct *c)
     int i;
     for(i=0;i<18;i=i+3)
     {
-        printf("[" green "%X" reset "]: " magenta "%1c  " reset,
+        printf("[" green "%9X" reset "]: " magenta "%1c  " reset,
               &(c->charArray[i][0]) , c->charArray[i][0]);
-        printf("[" green "%X" reset "]: " magenta "%1c  " reset,
+        printf("[" green "%9X" reset "]: " magenta "%1c  " reset,
               &(c->charArray[i+1][0]) , c->charArray[i+1][0]);
-        printf("[" green "%X" reset "]: " magenta "%1c\n" reset,
+        printf("[" green "%9X" reset "]: " magenta "%1c\n" reset,
               &(c->charArray[i+2][0]) , c->charArray[i+2][0]);
     }
 }
