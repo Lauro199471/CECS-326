@@ -34,12 +34,12 @@ void menu1_2(void)
 
 int main()
 {
-   int index , index_2;
+   int index;
    int userInput = 0 , i = 0;
-   int deallocatedIndex[20];
+   int deallocatedIndex[21];
    int deallocatedInt = 0;
 
-   for(i = 0;i < 20;i=i+1)
+   for(i = 0;i < 21;i=i+1)
    {
        deallocatedIndex[i] = 255;
    }
@@ -57,6 +57,7 @@ int main()
        menuStart();
        scanf("%d",&userInput);
 
+       // Access a Pointer
        if(userInput == 1)
        {
             system("clear");
@@ -64,47 +65,60 @@ int main()
             index = menu1();
             while(1)
             {
+                if(deallocatedIndex[index] == index)
+                {
+                    printf(cyan "PT IS GONE\n" reset);
+                }
+                deallocatedInt = deallocatedInt % 20;
                 menu1_2();
                 scanf("%d",&userInput);
+                // Exit
                 if(userInput == 3)
                     break;
+                // Delete all Char's
                 else if(userInput == 2)
                 {
-                    deallocatedIndex[deallocatedInt] = index;
-                    deallocatedInt = deallocatedInt + 1;
-                    delete mainStruct.charArray[index];
+                    if(deallocatedIndex[deallocatedInt] == 255)
+                    {
+                        deallocatedIndex[index] = index;
+                        delete mainStruct.charArray[index];
+                    }
+
                 }
+                // Print first 10 Chars
                 else if(userInput == 1)
                     print_CHARPTR_ARRAY(&mainStruct , index);
             }
        }
+       // List Deallocated Pointers
        else if( userInput == 2)
        {
            i = 0;
             printf(gray "deallocated memory (index):\n" reset);
-            index_2 = deallocatedIndex[i];
-            while(index_2 != 255)
+            for(i = 0; i < 20 ; i = i + 1)
             {
-                printf("%d " reset, deallocatedIndex[i]);
-                i = i + 1;
-                index_2 = deallocatedIndex[i];
+                if(deallocatedIndex[i] != 255)
+                    printf("%d " reset, deallocatedIndex[i]);
             }
-             printf("\n");
+            printf("\n");
        }
+       // Deallocate All Pointer
        else if( userInput == 3)
        {
            deallocatedInt = 0;
            for(i = 0;i < 20;i=i+1)
            {
-               deallocatedIndex[i] = i;
-               delete mainStruct.charArray[i];
+                if(deallocatedIndex[i] == i || i == 20){}
+                else
+                {
+                    printf("Here(%da)\n" , i);
+                    deallocatedIndex[i] = i;
+                    delete mainStruct.charArray[i];
+                }
            }
        }
-       //scanf("%d",&userInput);
-       //system("clear");
        printf(reset "\n");
    }while(userInput != 4);
-
    printf(reset "Exiting...\n");
    return 0;
 }
