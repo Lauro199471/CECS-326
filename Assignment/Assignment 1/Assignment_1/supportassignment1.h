@@ -22,45 +22,49 @@ void init_INT_ARRAY(myStruct *c)
 
 void init_CHARPTR_ARRAY(myStruct* c)
 {
-    int i;
+    int i , j;
     for(i = 0; i < 20 ; i = i + 1)
     {
         c->charArray[i] = (char*)malloc(c->intArray[i]);
-        c->charArray[i][0] = (rand()%25)+65;
+        for(j = 0; j < c->intArray[i] ; j = j + 1)
+        {
+            c->charArray[i][j] = (rand()%25)+65;
+        }
+
     }
 }
 
+/*
 void print_INT_ARRAY(myStruct *c)
 {
     int i;
+    printf("\n");
     for(i=0;i<20;i=i+4)
     {
-      printf("[" red "%X" reset "]: " blue "%10d  " reset,
+      printf("[" red "%p" reset "]: " blue "%10d  " reset,
              &(c->intArray[i]) , c->intArray[i]);
-      printf("[" red "%X" reset "]: " blue "%10d  " reset,
+      printf("[" red "%p" reset "]: " blue "%10d  " reset,
              &(c->intArray[i+1]) , c->intArray[i+1]);
-      printf("[" red "%X" reset "]: " blue "%10d  " reset,
+      printf("[" red "%p" reset "]: " blue "%10d  " reset,
              &(c->intArray[i+2]) , c->intArray[i+2]);
-      printf("[" red "%X" reset "]: " blue "%10d\n" reset,
+      printf("[" red "%p" reset "]: " blue "%10d\n" reset,
              &(c->intArray[i+3]) , c->intArray[i+3]);
 
     }
+    printf("\n");
 }
+*/
 
-void print_CHARPTR_ARRAY(myStruct *c)
+void print_CHARPTR_ARRAY(myStruct *c , int index)
 {
     int i;
-    for(i=0;i<20;i=i+4)
+    printf("\n");
+    printf(reset "[" green "%15p" reset "]: " , c->charArray[index]);
+    for(i=0;i<10;i=i+1)
     {
-        printf(yellow "%2d" reset ":[" green "%9X" reset "]: " magenta "%1c  " reset,
-              i + 1 , c->charArray[i] , c->charArray[i][0]);
-        printf(yellow "%2d" reset ":[" green "%9X" reset "]: " magenta "%1c  " reset,
-              i + 2 , &(c->charArray[i+1][0]) , c->charArray[i+1][0]);
-        printf(yellow "%2d" reset ":[" green "%9X" reset "]: " magenta "%1c  " reset,
-              i + 3 , &(c->charArray[i+2][0]) , c->charArray[i+2][0]);
-        printf(yellow "%2d" reset ":[" green "%9X" reset "]: " magenta "%1c\n" reset,
-              i + 4 , &(c->charArray[i+3][0]) , c->charArray[i+3][0]);
+        printf(magenta "%1c " reset, c->charArray[index][i]);
     }
+    printf("\n");
 }
 
 
@@ -70,12 +74,19 @@ void deallocateAllMemory(myStruct* c)
     int i;
     for(i=0;i<20;i=i+1)
     {
-        free((*c).charArray[i]);
+        //free((*c).charArray[i]);
+        //delete (*c)->charArray[i];
         c->charArray[i] = NULL;
     }
 }
 
 void deallocateAMemory(myStruct* c ,int i)
+{
+    free((*c).charArray[i]);
+    c->charArray[i] = NULL;
+}
+
+void deleteChar(myStruct* c ,int i)
 {
     free((*c).charArray[i]);
     c->charArray[i] = NULL;

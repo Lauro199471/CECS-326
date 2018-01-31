@@ -17,97 +17,94 @@ void menuStart()
          yellow "  (4)" reset " Exit Program\n>> ");
 }
 
-int menu1()
+int menu1(void)
 {
   int x;
   printf(red"Index: " reset);
-  scanf ("%d", x);
+  scanf ("%d", &x);
   return x;
 }
 void menu1_2(void)
 {
     printf(red "(1)" reset " Print Char's"
            green "  (2)" reset " Delete All Chars"
-           blue  "  (3)" reset " Return to Main Menu\n>>"
+           blue  "  (3)" reset " Return to Main Menu\n>> "
           );
 }
 
 int main()
 {
-   int* exp;
-   int i , index;
-   int userInput = 0;
+   int index , index_2;
+   int userInput = 0 , i = 0;
+   int deallocatedIndex[20];
+   int deallocatedInt = 0;
+
+   for(i = 0;i < 20;i=i+1)
+   {
+       deallocatedIndex[i] = 255;
+   }
+    printf("\n");
 
    myStruct mainStruct;
    srand(time(0));
 
    init_INT_ARRAY(&mainStruct);
+   init_CHARPTR_ARRAY(&mainStruct);
 
-   while(userInput != 4)
+   do
    {
-       system("clear");
        initHeader();
        menuStart();
-       scanf ("%d",&userInput);
+       scanf("%d",&userInput);
 
        if(userInput == 1)
        {
             system("clear");
             initHeader();
             index = menu1();
-            userInput = 0;
-            while(userInput != 3)
+            while(1)
             {
                 menu1_2();
-                scanf ("%d",&userInput);
+                scanf("%d",&userInput);
                 if(userInput == 3)
                     break;
-                if(userInput == 2)
-                    deallocateAMemory(&mainStruct , index);
-                if(userInput == 1)
-                    print_CHARPTR_ARRAY(&mainStruct);
+                else if(userInput == 2)
+                {
+                    deallocatedIndex[deallocatedInt] = index;
+                    deallocatedInt = deallocatedInt + 1;
+                    delete mainStruct.charArray[index];
+                }
+                else if(userInput == 1)
+                    print_CHARPTR_ARRAY(&mainStruct , index);
             }
        }
-    }
+       else if( userInput == 2)
+       {
+           i = 0;
+            printf(gray "deallocated memory (index):\n" reset);
+            index_2 = deallocatedIndex[i];
+            while(index_2 != 255)
+            {
+                printf("%d " reset, deallocatedIndex[i]);
+                i = i + 1;
+                index_2 = deallocatedIndex[i];
+            }
+             printf("\n");
+       }
+       else if( userInput == 3)
+       {
+           deallocatedInt = 0;
+           for(i = 0;i < 20;i=i+1)
+           {
+               deallocatedIndex[i] = i;
+               delete mainStruct.charArray[i];
+           }
+       }
+       //scanf("%d",&userInput);
+       //system("clear");
+       printf(reset "\n");
+   }while(userInput != 4);
 
-
-
-
-
-
-
-
-
-
-
-
-   //////////////////////////////////////////////////////////////
-   /*
-   print_INT_ARRAY(&mainStruct);
-
-   printf("\n");
-
-   init_CHARPTR_ARRAY(&mainStruct);
-   print_CHARPTR_ARRAY_HEAP(&mainStruct);
-
-   printf("\n");
-   //deallocateAllMemory(&mainStruct);
-     deallocateAMemory(&mainStruct , 3);
-
-   //system("clear");
-   initHeader();
-
-   if(mainStruct.charArray[3] == NULL)
-   {
-        printf(green "\nPass\n");
-   }
-   else
-   {
-        printf(red "\nNo Pass\n");
-   }
-
-   printf(reset "DONE\n");
-   */
-   printf(reset "\n");
+   printf(reset "Exiting...\n");
    return 0;
 }
