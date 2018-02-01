@@ -67,7 +67,9 @@ int main()
             {
                 if(deallocatedIndex[index] == index)
                 {
-                    printf(cyan "PT IS GONE\n" reset);
+                    printf(cyan "**PT IS GONE ... re-Initialized**\n" reset);
+                    init_CHARPTR_ARRAY_index(&mainStruct ,index);
+                    deallocatedIndex[index] = 255;
                 }
                 deallocatedInt = deallocatedInt % 20;
                 menu1_2();
@@ -111,7 +113,6 @@ int main()
                 if(deallocatedIndex[i] == i || i == 20){}
                 else
                 {
-                    printf("Here(%da)\n" , i);
                     deallocatedIndex[i] = i;
                     delete mainStruct.charArray[i];
                 }

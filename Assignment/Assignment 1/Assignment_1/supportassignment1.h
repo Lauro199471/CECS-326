@@ -33,27 +33,15 @@ void init_CHARPTR_ARRAY(myStruct* c)
 
     }
 }
-
-/*
-void print_INT_ARRAY(myStruct *c)
+void init_CHARPTR_ARRAY_index(myStruct* c , int index)
 {
-    int i;
-    printf("\n");
-    for(i=0;i<20;i=i+4)
+    int j;
+    c->charArray[index] = (char*)malloc(c->intArray[index]);
+    for(j = 0; j < c->intArray[index] ; j = j + 1)
     {
-      printf("[" red "%p" reset "]: " blue "%10d  " reset,
-             &(c->intArray[i]) , c->intArray[i]);
-      printf("[" red "%p" reset "]: " blue "%10d  " reset,
-             &(c->intArray[i+1]) , c->intArray[i+1]);
-      printf("[" red "%p" reset "]: " blue "%10d  " reset,
-             &(c->intArray[i+2]) , c->intArray[i+2]);
-      printf("[" red "%p" reset "]: " blue "%10d\n" reset,
-             &(c->intArray[i+3]) , c->intArray[i+3]);
-
+        c->charArray[index][j] = (rand()%25)+65;
     }
-    printf("\n");
 }
-*/
 
 void print_CHARPTR_ARRAY(myStruct *c , int index)
 {
