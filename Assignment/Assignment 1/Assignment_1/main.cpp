@@ -63,14 +63,16 @@ int main()
             system("clear");
             initHeader();
             index = menu1();
+
+            if(deallocatedIndex[index] == index)
+            {
+                printf(cyan "**PT IS GONE ... re-Initialized**\n" reset);
+                init_CHARPTR_ARRAY_index(&mainStruct ,index);
+                deallocatedIndex[index] = 255;
+            }
+
             while(1)
             {
-                if(deallocatedIndex[index] == index)
-                {
-                    printf(cyan "**PT IS GONE ... re-Initialized**\n" reset);
-                    init_CHARPTR_ARRAY_index(&mainStruct ,index);
-                    deallocatedIndex[index] = 255;
-                }
                 deallocatedInt = deallocatedInt % 20;
                 menu1_2();
                 scanf("%d",&userInput);
@@ -80,8 +82,9 @@ int main()
                 // Delete all Char's
                 else if(userInput == 2)
                 {
-                    if(deallocatedIndex[deallocatedInt] == 255)
+                    if(deallocatedIndex[index] == 255)
                     {
+
                         deallocatedIndex[index] = index;
                         delete mainStruct.charArray[index];
                     }

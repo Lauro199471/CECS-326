@@ -20,5 +20,4 @@ HEADERS += \
     color.h \
     supportassignment1.h
 
-FORMS += \
-    lab1.ui
+FORMS +=
