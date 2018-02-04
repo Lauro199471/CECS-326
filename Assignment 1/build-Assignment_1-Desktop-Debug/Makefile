@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../Assignment_1 -I. -I/home/lauro199471/anaconda3/include/qt -I/home/lauro199471/anaconda3/include/qt/QtCore -I. -I/home/lauro199471/anaconda3/mkspecs/linux-g++
+INCPATH       = -I../Assignment_1 -I. -I../../../../anaconda3/include/qt -I../../../../anaconda3/include/qt/QtCore -I. -I../../../../anaconda3/mkspecs/linux-g++
 QMAKE         = /home/lauro199471/anaconda3/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Assignment_11.0.0
-DISTDIR = /home/lauro199471/Documents/CECS-326/Assignment/Assignment\ 1/build-Assignment_1-Desktop-Debug/.tmp/Assignment_11.0.0
+DISTDIR = /home/lauro199471/Documents/CECS-326/Assignment\ 1/build-Assignment_1-Desktop-Debug/.tmp/Assignment_11.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/lauro199471/anaconda3/lib
 LIBS          = $(SUBLIBS) -L/home/lauro199471/anaconda3/lib -lQt5Core -lpthread 
@@ -50,107 +50,107 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Assignment_1/main.cpp 
 OBJECTS       = main.o
-DIST          = /home/lauro199471/anaconda3/mkspecs/features/spec_pre.prf \
-		/home/lauro199471/anaconda3/mkspecs/common/unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/linux.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/sanitize.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/gcc-base.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/gcc-base-unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/g++-base.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/g++-unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/qconfig.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_clucene_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uiplugin.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/features/qt_functions.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qt_config.prf \
-		/home/lauro199471/anaconda3/mkspecs/linux-g++/qmake.conf \
-		/home/lauro199471/anaconda3/mkspecs/features/spec_post.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/exclusive_builds.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/default_pre.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/resolve_config.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/default_post.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qml_debug.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/warn_on.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qt.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/resources.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/moc.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/unix/thread.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/file_copies.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/testcase_targets.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/exceptions.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/yacc.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/lex.prf \
+DIST          = ../../../../anaconda3/mkspecs/features/spec_pre.prf \
+		../../../../anaconda3/mkspecs/common/unix.conf \
+		../../../../anaconda3/mkspecs/common/linux.conf \
+		../../../../anaconda3/mkspecs/common/sanitize.conf \
+		../../../../anaconda3/mkspecs/common/gcc-base.conf \
+		../../../../anaconda3/mkspecs/common/gcc-base-unix.conf \
+		../../../../anaconda3/mkspecs/common/g++-base.conf \
+		../../../../anaconda3/mkspecs/common/g++-unix.conf \
+		../../../../anaconda3/mkspecs/qconfig.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_clucene_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_concurrent.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_core.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_core_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_dbus.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_dbus_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designer.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designer_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_gui.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_gui_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_help.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_help_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimedia.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_network.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_network_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_nfc.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_nfc_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_opengl.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_opengl_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_printsupport.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qml.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qml_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmltest.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quick.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quick_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_script.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_script_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_scripttools.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_sql.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_sql_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_svg.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_svg_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_testlib.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_testlib_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uiplugin.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uitools.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uitools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webchannel.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkit.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkit_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_websockets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_websockets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_widgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_widgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_x11extras.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xml.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xml_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
+		../../../../anaconda3/mkspecs/features/qt_functions.prf \
+		../../../../anaconda3/mkspecs/features/qt_config.prf \
+		../../../../anaconda3/mkspecs/linux-g++/qmake.conf \
+		../../../../anaconda3/mkspecs/features/spec_post.prf \
+		../../../../anaconda3/mkspecs/features/exclusive_builds.prf \
+		../../../../anaconda3/mkspecs/features/default_pre.prf \
+		../../../../anaconda3/mkspecs/features/resolve_config.prf \
+		../../../../anaconda3/mkspecs/features/default_post.prf \
+		../../../../anaconda3/mkspecs/features/qml_debug.prf \
+		../../../../anaconda3/mkspecs/features/warn_on.prf \
+		../../../../anaconda3/mkspecs/features/qt.prf \
+		../../../../anaconda3/mkspecs/features/resources.prf \
+		../../../../anaconda3/mkspecs/features/moc.prf \
+		../../../../anaconda3/mkspecs/features/unix/thread.prf \
+		../../../../anaconda3/mkspecs/features/file_copies.prf \
+		../../../../anaconda3/mkspecs/features/testcase_targets.prf \
+		../../../../anaconda3/mkspecs/features/exceptions.prf \
+		../../../../anaconda3/mkspecs/features/yacc.prf \
+		../../../../anaconda3/mkspecs/features/lex.prf \
 		../Assignment_1/Assignment_1.pro ../Assignment_1/color.h \
 		../Assignment_1/supportassignment1.h ../Assignment_1/main.cpp
 QMAKE_TARGET  = Assignment_1
@@ -164,213 +164,213 @@ first: all
 $(TARGET):  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
-Makefile: ../Assignment_1/Assignment_1.pro /home/lauro199471/anaconda3/mkspecs/linux-g++/qmake.conf /home/lauro199471/anaconda3/mkspecs/features/spec_pre.prf \
-		/home/lauro199471/anaconda3/mkspecs/common/unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/linux.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/sanitize.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/gcc-base.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/gcc-base-unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/g++-base.conf \
-		/home/lauro199471/anaconda3/mkspecs/common/g++-unix.conf \
-		/home/lauro199471/anaconda3/mkspecs/qconfig.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_clucene_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uiplugin.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri \
-		/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
-		/home/lauro199471/anaconda3/mkspecs/features/qt_functions.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qt_config.prf \
-		/home/lauro199471/anaconda3/mkspecs/linux-g++/qmake.conf \
-		/home/lauro199471/anaconda3/mkspecs/features/spec_post.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/exclusive_builds.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/default_pre.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/resolve_config.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/default_post.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qml_debug.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/warn_on.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/qt.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/resources.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/moc.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/unix/thread.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/file_copies.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/testcase_targets.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/exceptions.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/yacc.prf \
-		/home/lauro199471/anaconda3/mkspecs/features/lex.prf \
+Makefile: ../Assignment_1/Assignment_1.pro ../../../../anaconda3/mkspecs/linux-g++/qmake.conf ../../../../anaconda3/mkspecs/features/spec_pre.prf \
+		../../../../anaconda3/mkspecs/common/unix.conf \
+		../../../../anaconda3/mkspecs/common/linux.conf \
+		../../../../anaconda3/mkspecs/common/sanitize.conf \
+		../../../../anaconda3/mkspecs/common/gcc-base.conf \
+		../../../../anaconda3/mkspecs/common/gcc-base-unix.conf \
+		../../../../anaconda3/mkspecs/common/g++-base.conf \
+		../../../../anaconda3/mkspecs/common/g++-unix.conf \
+		../../../../anaconda3/mkspecs/qconfig.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_clucene_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_concurrent.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_core.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_core_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_dbus.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_dbus_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designer.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designer_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_gui.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_gui_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_help.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_help_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimedia.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_network.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_network_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_nfc.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_nfc_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_opengl.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_opengl_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_printsupport.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qml.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qml_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmltest.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quick.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quick_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_script.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_script_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_scripttools.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_sql.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_sql_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_svg.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_svg_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_testlib.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_testlib_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uiplugin.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uitools.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_uitools_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webchannel.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkit.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkit_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_websockets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_websockets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_widgets.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_widgets_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_x11extras.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xml.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xml_private.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri \
+		../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
+		../../../../anaconda3/mkspecs/features/qt_functions.prf \
+		../../../../anaconda3/mkspecs/features/qt_config.prf \
+		../../../../anaconda3/mkspecs/linux-g++/qmake.conf \
+		../../../../anaconda3/mkspecs/features/spec_post.prf \
+		../../../../anaconda3/mkspecs/features/exclusive_builds.prf \
+		../../../../anaconda3/mkspecs/features/default_pre.prf \
+		../../../../anaconda3/mkspecs/features/resolve_config.prf \
+		../../../../anaconda3/mkspecs/features/default_post.prf \
+		../../../../anaconda3/mkspecs/features/qml_debug.prf \
+		../../../../anaconda3/mkspecs/features/warn_on.prf \
+		../../../../anaconda3/mkspecs/features/qt.prf \
+		../../../../anaconda3/mkspecs/features/resources.prf \
+		../../../../anaconda3/mkspecs/features/moc.prf \
+		../../../../anaconda3/mkspecs/features/unix/thread.prf \
+		../../../../anaconda3/mkspecs/features/file_copies.prf \
+		../../../../anaconda3/mkspecs/features/testcase_targets.prf \
+		../../../../anaconda3/mkspecs/features/exceptions.prf \
+		../../../../anaconda3/mkspecs/features/yacc.prf \
+		../../../../anaconda3/mkspecs/features/lex.prf \
 		../Assignment_1/Assignment_1.pro \
-		/home/lauro199471/anaconda3/lib/libQt5Core.prl
+		../../../../anaconda3/lib/libQt5Core.prl
 	$(QMAKE) -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug -o Makefile ../Assignment_1/Assignment_1.pro
-/home/lauro199471/anaconda3/mkspecs/features/spec_pre.prf:
-/home/lauro199471/anaconda3/mkspecs/common/unix.conf:
-/home/lauro199471/anaconda3/mkspecs/common/linux.conf:
-/home/lauro199471/anaconda3/mkspecs/common/sanitize.conf:
-/home/lauro199471/anaconda3/mkspecs/common/gcc-base.conf:
-/home/lauro199471/anaconda3/mkspecs/common/gcc-base-unix.conf:
-/home/lauro199471/anaconda3/mkspecs/common/g++-base.conf:
-/home/lauro199471/anaconda3/mkspecs/common/g++-unix.conf:
-/home/lauro199471/anaconda3/mkspecs/qconfig.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_clucene_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_core_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_dbus_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designer_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_gui_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_help_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_network_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_nfc_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_opengl_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qml_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quick_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_script_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_sql_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_svg_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_testlib_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uiplugin.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_uitools_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkit_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_websockets_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_widgets_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xml_private.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri:
-/home/lauro199471/anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri:
-/home/lauro199471/anaconda3/mkspecs/features/qt_functions.prf:
-/home/lauro199471/anaconda3/mkspecs/features/qt_config.prf:
-/home/lauro199471/anaconda3/mkspecs/linux-g++/qmake.conf:
-/home/lauro199471/anaconda3/mkspecs/features/spec_post.prf:
-/home/lauro199471/anaconda3/mkspecs/features/exclusive_builds.prf:
-/home/lauro199471/anaconda3/mkspecs/features/default_pre.prf:
-/home/lauro199471/anaconda3/mkspecs/features/resolve_config.prf:
-/home/lauro199471/anaconda3/mkspecs/features/default_post.prf:
-/home/lauro199471/anaconda3/mkspecs/features/qml_debug.prf:
-/home/lauro199471/anaconda3/mkspecs/features/warn_on.prf:
-/home/lauro199471/anaconda3/mkspecs/features/qt.prf:
-/home/lauro199471/anaconda3/mkspecs/features/resources.prf:
-/home/lauro199471/anaconda3/mkspecs/features/moc.prf:
-/home/lauro199471/anaconda3/mkspecs/features/unix/thread.prf:
-/home/lauro199471/anaconda3/mkspecs/features/file_copies.prf:
-/home/lauro199471/anaconda3/mkspecs/features/testcase_targets.prf:
-/home/lauro199471/anaconda3/mkspecs/features/exceptions.prf:
-/home/lauro199471/anaconda3/mkspecs/features/yacc.prf:
-/home/lauro199471/anaconda3/mkspecs/features/lex.prf:
+../../../../anaconda3/mkspecs/features/spec_pre.prf:
+../../../../anaconda3/mkspecs/common/unix.conf:
+../../../../anaconda3/mkspecs/common/linux.conf:
+../../../../anaconda3/mkspecs/common/sanitize.conf:
+../../../../anaconda3/mkspecs/common/gcc-base.conf:
+../../../../anaconda3/mkspecs/common/gcc-base-unix.conf:
+../../../../anaconda3/mkspecs/common/g++-base.conf:
+../../../../anaconda3/mkspecs/common/g++-unix.conf:
+../../../../anaconda3/mkspecs/qconfig.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_bluetooth_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_bootstrap_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_clucene_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_concurrent.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_concurrent_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_core.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_core_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_dbus.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_dbus_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_designer.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_designer_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_designercomponents_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_gui.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_gui_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_help.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_help_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_multimedia.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_multimedia_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_multimediawidgets_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_network.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_network_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_nfc.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_nfc_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_opengl.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_opengl_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_openglextensions_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_platformsupport_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_printsupport.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_printsupport_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qml.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qml_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qmldevtools_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qmltest.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qmltest_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_quick.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_quick_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_quickparticles_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_quickwidgets_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_script.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_script_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_scripttools.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_scripttools_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_sql.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_sql_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_svg.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_svg_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_testlib.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_testlib_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_uiplugin.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_uitools.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_uitools_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webchannel.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webchannel_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webkit.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webkit_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_webkitwidgets_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_websockets.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_websockets_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_widgets.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_widgets_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_x11extras.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_x11extras_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_xml.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_xml_private.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns.pri:
+../../../../anaconda3/mkspecs/modules/qt_lib_xmlpatterns_private.pri:
+../../../../anaconda3/mkspecs/features/qt_functions.prf:
+../../../../anaconda3/mkspecs/features/qt_config.prf:
+../../../../anaconda3/mkspecs/linux-g++/qmake.conf:
+../../../../anaconda3/mkspecs/features/spec_post.prf:
+../../../../anaconda3/mkspecs/features/exclusive_builds.prf:
+../../../../anaconda3/mkspecs/features/default_pre.prf:
+../../../../anaconda3/mkspecs/features/resolve_config.prf:
+../../../../anaconda3/mkspecs/features/default_post.prf:
+../../../../anaconda3/mkspecs/features/qml_debug.prf:
+../../../../anaconda3/mkspecs/features/warn_on.prf:
+../../../../anaconda3/mkspecs/features/qt.prf:
+../../../../anaconda3/mkspecs/features/resources.prf:
+../../../../anaconda3/mkspecs/features/moc.prf:
+../../../../anaconda3/mkspecs/features/unix/thread.prf:
+../../../../anaconda3/mkspecs/features/file_copies.prf:
+../../../../anaconda3/mkspecs/features/testcase_targets.prf:
+../../../../anaconda3/mkspecs/features/exceptions.prf:
+../../../../anaconda3/mkspecs/features/yacc.prf:
+../../../../anaconda3/mkspecs/features/lex.prf:
 ../Assignment_1/Assignment_1.pro:
-/home/lauro199471/anaconda3/lib/libQt5Core.prl:
+../../../../anaconda3/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug -o Makefile ../Assignment_1/Assignment_1.pro
 
