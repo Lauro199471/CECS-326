@@ -60,7 +60,7 @@ int main()
        // Access a Pointer
        if(userInput == 1)
        {
-            system("clear");
+            //system("clear");
             initHeader();
             index = menu1();
 
