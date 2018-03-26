@@ -3,54 +3,88 @@
 #include <fstream>
 #include <iostream>
 
+#define running 1
+
 using namespace std;
 
+void find_and_replace();
+
 int main() {
-  string search;
-  string candidate ;
-  string replace;
-  int countwords = 0 ;
-    
-  ifstream File("robot.txt");
-  ofstream fileout("temp.txt"); //Temporary file
+  string text = "";
+  string textTotal = "";
   
-  if(!File || !fileout) //if both files are not available
+  string search;
+  string candidate;
+  string replace;  
+  int countwords = 0;
+  
+  ifstream filein("robot.txt");
+  ofstream temp_fileout("temp.txt"); //Temporary file
+  ifstream temp_filein("temp.txt");
+   
+  
+  if(filein.is_open() && temp_fileout.is_open() && temp_filein.is_open())
   {
-    cout << "Error opening files!" << endl;
-    return 1;
+    cout << "Files are good\n";
   }
-  if(File.is_open())
+  
+  // clear temp file
+  temp_fileout.open("temp.txt",ofstream::out | ofstream::trunc);
+  temp_fileout.close();
+  temp_fileout.open("temp.txt");
+         
+  while(!filein.eof())
   {
-    cout << "Write the word you're searching for:\033[1;32m ";
+    getline(filein, text);
+    textTotal += text + " ";
+  }
+  temp_fileout << textTotal;
+  cout << textTotal;
+  temp_fileout.close();
+  temp_filein.close();
+  
+  while(running)
+  {
+    countwords = 0; textTotal = "";
+    
+    // Get User input        
+    cout << "\n\nWrite the word you're searching for:\033[1;32m ";
     cin >> search ;
     cout << "\033[0m";
-    
+
     cout << "Replace:\033[1;31m ";
     cin >> replace;
     cout << "\033[0m";
     
-    while(File>>candidate ) 
+    // Find
+    temp_filein.open("temp.txt");
+    while(temp_filein>>candidate ) 
     {
+      text = candidate;
       if( search == candidate ) //if your word found then replace
       {
-        candidate = replace;
+        candidate = "\033[1;35m"+replace+"\033[0m";
+        text = replace;
         ++countwords ;  
       } 
-      fileout << candidate << " ";
+      textTotal = textTotal + " " + text;
+      cout << candidate << " "; 
     }
-
-    cout << "The word '" << search << "' has been found " << countwords << " times.\n" ;
+    temp_filein.close();
+    
+    // Clear and Fill
+    temp_fileout.open("temp.txt",ofstream::out | ofstream::trunc);
+    temp_fileout.close();
+    temp_fileout.open("temp.txt");
+    
+    
+    temp_fileout << textTotal;
+    cout << "\n\nThe word \033[1;31m'" << search 
+    << "'\033[0m has been found \033[1;33m" << countwords << "\033[0m times.\n";
+    
   }
-
-  else
-  {
-    cout << "Error! File not found!\n" ;
-    return 1 ;
-  }
-
   return 0;
 }
-
 
 
 
