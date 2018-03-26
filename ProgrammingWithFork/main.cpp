@@ -54,7 +54,7 @@ int main() {
 
     cout << "Replace:\033[1;31m ";
     cin >> replace;
-    cout << "\033[0m";
+    cout << "\033[0m\n";
     
     // Find
     temp_filein.open("temp.txt");
