@@ -63,8 +63,8 @@ int main() {
     {
         cout << "\n--End of Program--\n";
         // wait for child to finish
-        wait(NULL);
-        wait(NULL);
+        //wait(NULL);
+        //wait(NULL);
         break;
 
     }
@@ -104,6 +104,9 @@ int main() {
         temp_fileout << textTotal;
         cout << "\n\nThe word \033[1;31m'" << search 
         << "'\033[0m has been found \033[1;33m" << countwords << "\033[0m times.\n";
+        while(countwords == 0){cout <<".\n";}
+        printf("\n--end of Child processing--\n");
+        exit(0);
     }
     else if(pid < 0)
     {
@@ -113,11 +116,11 @@ int main() {
     }
     
     // wait for child and parent to finish
-    wait(NULL);
-    wait(NULL);
+    while ((wpid = wait(&status)) > 0);
     
     
-    printf("\n--end of processing--\n");
+    printf("\n--end of parent processing--\n");
+    
     
   }
     // wait for child to finish
