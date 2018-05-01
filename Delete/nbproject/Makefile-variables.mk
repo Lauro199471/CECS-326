@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=kinectnetbeans
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/kinectnetbeans
+CND_ARTIFACT_NAME_Debug=delete
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/delete
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=kinectnetbeans.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/kinectnetbeans.tar
+CND_PACKAGE_NAME_Debug=delete.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/delete.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=kinectnetbeans
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/kinectnetbeans
+CND_ARTIFACT_NAME_Release=delete
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/delete
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=kinectnetbeans.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/kinectnetbeans.tar
+CND_PACKAGE_NAME_Release=delete.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/delete.tar
 #
 # include compiler specific variables
 #
