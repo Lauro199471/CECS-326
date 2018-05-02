@@ -1,4 +1,7 @@
-// C++ program to demonstrate creating processes using fork()
+/*
+ * Lauro Cabral
+ * Project 4
+ */
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +20,7 @@ using namespace std;
 #define running 1
 #define U_DIV 827395609
 #define V_DIV 962094883
-const int BUFFSIZE = 5; // 4 Processes 
+const int BUFFSIZE = 4; // 4 Processes 
 
 
 #define RESET   "\033[0m"
@@ -39,7 +42,7 @@ const int BUFFSIZE = 5; // 4 Processes
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 
-enum {MUTEX , MUTUX_STATUS}; 
+enum {MUTEX , MUTUX_STATUS , MUTUX_U , MUTUX_V}; 
 
 //==================================
 //         U() and V()             =
@@ -67,7 +70,6 @@ int main()
 {  
   pid_t wpid=0;
   int status = 0;
-  
   int shmid_queue_id , shmid_queue_ptr_id , U_V_status_id;
   
   char* shmid_queue;
@@ -84,7 +86,7 @@ int main()
           
   SEMAPHORE sem(2);
   sem.V(MUTEX);
-  sem.V(MUTEX);
+  //sem.V(MUTEX);
   sem.V(MUTUX_STATUS);
   
   // Initilaze Shared Stuff
@@ -152,164 +154,209 @@ void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , boo
   bool flag;
   while(running)
   {
+    sleep(2);
+    printf( RESET "| %c | %c | %c | %c |  PTR: %d\n" , 
+            *(shmid_queue+0),
+            *(shmid_queue+1),
+            *(shmid_queue+2),
+            *(shmid_queue+3),
+            *(shmid_queue_ptr)
+            );
   }
 }
 
 void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
 {
-  int flag;
-  
   while(running)
   {
-    // Put in Queue & Increase Pointer
-    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '1';
-    *shmid_queue_ptr = (*shmid_queue_ptr + 1) % BUFFSIZE;
-    while(*(shmid_queue + (*shmid_queue_ptr - 1)) != '1' &&
-          *(shmid_queue + (*shmid_queue_ptr)) != '1'); // Check if Next
+    // Add to Queue & Incr PTR
+    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '1'; 
+    (*shmid_queue_ptr) = (*shmid_queue_ptr) + 1;
+    printf( BOLDRED "\tP1 Added to queue\n");
     
+    // Check if Top
+    while(*(shmid_queue) != '1');
+    
+    //===================================================
+    //               Start Critical Section
+    //===================================================
     sem.P(MUTEX);
-      // Remove in Queue & Decrease Pointer
-      *shmid_queue_ptr = *shmid_queue_ptr - 1;
-      *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = ' ';
-      
       sleep(3);
-      
-      sem.P(MUTUX_STATUS);
       if(*U_V_status == true)
       {
         *U_V_status = false;
-        sem.V(MUTUX_STATUS);
-        printf( BOLDRED "\n\tP1 RUNNING A" RESET );
+        // Shift from queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDRED "\tP1 RUNNING A" RESET);
         U();
         *U_V_status = true;
       }
       else
-      { 
-        printf( BOLDRED "\n\tP1 RUNNING B" RESET );
+      {
+        // Remove from queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDRED "\tP1 RUNNING B" RESET );
         V();
       }
-      
-      printf( BOLDRED "\n\tP1 DONE\n" RESET ); 
+      printf( BOLDRED "\n\tP1 DONE\n" RESET );
     sem.V(MUTEX);
+    //===================================================
+    //                End Critical Section
+    //=================================================== 
   }
 }
 
 void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
-{
-  bool flag;
-  
+{  
   while(running)
   {
-    // Check if Next
-    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '2';
-    *shmid_queue_ptr = (*shmid_queue_ptr + 1) % BUFFSIZE;  
-    while(*(shmid_queue + (*shmid_queue_ptr - 1)) != '2' &&
-          *(shmid_queue + (*shmid_queue_ptr)) != '2');     
- 
+    // Add to Queue & Incr PTR
+    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '2'; 
+    (*shmid_queue_ptr) = (*shmid_queue_ptr) + 1;
+    printf( BOLDBLUE "\tP2 Added to queue\n");
+    
+    // Check if Top
+    while(*(shmid_queue) != '2');
+    
+    //===================================================
+    //               Start Critical Section
+    //===================================================
     sem.P(MUTEX);
-      // Remove in Queue & Decrease Pointer
-      *(shmid_queue + ((*shmid_queue_ptr-1)%BUFFSIZE)) = ' ';
-      *shmid_queue_ptr = *shmid_queue_ptr - 1;
-      
       sleep(3);
-      
-      sem.P(MUTUX_STATUS);
       if(*U_V_status == true)
       {
         *U_V_status = false;
-        sem.V(MUTUX_STATUS);
-        printf( BOLDBLUE "\n\tP2 RUNNING A" RESET );
+        // Shift queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDBLUE "\tP2 RUNNING A" RESET);
         U();
         *U_V_status = true;
       }
       else
-      { 
-        printf( BOLDBLUE "\n\tP2 RUNNING B" RESET );
+      {
+        // Remove from queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDBLUE "\tP2 RUNNING B" RESET );
         V();
       }
-      
       printf( BOLDBLUE "\n\tP2 DONE\n" RESET );
     sem.V(MUTEX);
+    //===================================================
+    //                End Critical Section
+    //=================================================== 
   }
 }
 
 void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
-{
-  
-  bool flag;
-  
+{  
   while(running)
   {
-    //
-    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '3';
-    *shmid_queue_ptr = (*shmid_queue_ptr + 1) % BUFFSIZE;  
-    while(*(shmid_queue + (*shmid_queue_ptr - 1)) != '3' &&
-          *(shmid_queue + (*shmid_queue_ptr)) != '3');          
-
+    // Add to Queue & Incr PTR
+    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '3'; 
+    (*shmid_queue_ptr) = (*shmid_queue_ptr) + 1;
+    printf( BOLDGREEN "\tP3 Added to queue\n");
+    
+    // Check if Top
+    while(*(shmid_queue) != '3');
+    
+    //===================================================
+    //               Start Critical Section
+    //===================================================
     sem.P(MUTEX);
-
-      // Remove in Queue & Decrease Pointer
-      *(shmid_queue + ((*shmid_queue_ptr-1)%BUFFSIZE)) = ' ';
-      *shmid_queue_ptr = *shmid_queue_ptr - 1;
-     
       sleep(3);
-      
-      sem.P(MUTUX_STATUS);
       if(*U_V_status == true)
       {
         *U_V_status = false;
-        sem.V(MUTUX_STATUS);
-        printf( BOLDGREEN "\n\tP3 RUNNING A" RESET );
+        // Shift queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDGREEN "\tP3 RUNNING A" RESET);
         U();
         *U_V_status = true;
       }
       else
-      { 
-        printf( BOLDGREEN "\n\tP3 RUNNING B" RESET );
+      {
+        // Remove from queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDGREEN "\tP3 RUNNING B" RESET );
         V();
       }
-      
       printf( BOLDGREEN "\n\tP3 DONE\n" RESET );
     sem.V(MUTEX);
+    //===================================================
+    //                End Critical Section
+    //=================================================== 
   }
 }
 
 void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
 {
-  
-  bool flag;
   while(running)
   {
-    // Check if Next
-    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '4';
-    *shmid_queue_ptr = (*shmid_queue_ptr + 1) % BUFFSIZE;  
-
-    while(*(shmid_queue + (*shmid_queue_ptr - 1)) != '4' &&
-          *(shmid_queue + (*shmid_queue_ptr)) != '4');          
- 
+    // Add to Queue & Incr PTR
+    *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '4'; 
+    (*shmid_queue_ptr) = (*shmid_queue_ptr) + 1;
+    printf( BOLDYELLOW "\tP4 Added to queue\n");
+    
+    // Check if Top
+    while(*(shmid_queue) != '4');
+    
+    //===================================================
+    //               Start Critical Section
+    //===================================================
     sem.P(MUTEX);
-      // Remove in Queue & Decrease Pointer
-      *(shmid_queue + ((*shmid_queue_ptr-1)%BUFFSIZE)) = ' ';
-      *shmid_queue_ptr = *shmid_queue_ptr - 1;
-      
       sleep(3);
-
-      sem.P(MUTUX_STATUS);
       if(*U_V_status == true)
       {
         *U_V_status = false;
-        sem.V(MUTUX_STATUS);
-        printf( BOLDYELLOW "\n\tP4 RUNNING A" RESET );
+        // Shift queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDYELLOW "\tP4 RUNNING A" RESET);
         U();
         *U_V_status = true;
       }
       else
-      { 
-        printf( BOLDYELLOW "\n\tP4 RUNNING B" RESET );
+      {
+        // Remove from queue & Decr PTR
+        *(shmid_queue) = *(shmid_queue + 1);
+        *(shmid_queue + 1) = *(shmid_queue + 2);
+        *(shmid_queue + 2) = *(shmid_queue + 3);
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        
+        printf( BOLDYELLOW "\tP4 RUNNING B" RESET );
         V();
       }
-      
       printf( BOLDYELLOW "\n\tP4 DONE\n" RESET );
     sem.V(MUTEX);
+    //===================================================
+    //                End Critical Section
+    //=================================================== 
   }
 }
