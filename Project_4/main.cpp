@@ -49,40 +49,43 @@ enum {MUTEX , MUTUX_STATUS , MUTUX_U , MUTUX_V};
 //==================================
 void U(void)
 {
-
+  sleep(1);
 }
 void V(void)
 {
-  
+  sleep(2);
 }
 
 //==================================
 //  Main Functions for Processes   =
 //==================================
-void parent_main(SEMAPHORE&  , char* , int* , bool*);
-void child_1_main(SEMAPHORE& , char* , int* , bool*);
-void child_2_main(SEMAPHORE& , char* , int* , bool*);
-void child_3_main(SEMAPHORE& , char* , int* , bool*);
-void child_4_main(SEMAPHORE& , char* , int* , bool*);
+void parent_main(SEMAPHORE&  , char* , int* , bool* , bool*);
+void child_1_main(SEMAPHORE& , char* , int* , bool* , bool*);
+void child_2_main(SEMAPHORE& , char* , int* , bool* , bool*);
+void child_3_main(SEMAPHORE& , char* , int* , bool* , bool*);
+void child_4_main(SEMAPHORE& , char* , int* , bool* , bool*);
 
 
 int main()
 {  
   pid_t wpid=0;
   int status = 0;
-  int shmid_queue_id , shmid_queue_ptr_id , U_V_status_id;
+  int shmid_queue_id , shmid_queue_ptr_id , U_V_status_id , U_V_sample_id;
   
   char* shmid_queue;
   int* shmid_queue_ptr;
   bool* U_V_status;
+  bool* U_V_sample;
   
   shmid_queue_id = shmget(IPC_PRIVATE, BUFFSIZE*sizeof(char), PERMS);
   shmid_queue_ptr_id = shmget(IPC_PRIVATE, sizeof(int), PERMS);
   U_V_status_id = shmget(IPC_PRIVATE, sizeof(bool), PERMS);
+  U_V_sample_id = shmget(IPC_PRIVATE, sizeof(bool), PERMS);
   
   shmid_queue = (char *)shmat(shmid_queue_id, 0, SHM_RND);
   shmid_queue_ptr = (int *)shmat(shmid_queue_ptr_id, 0, SHM_RND);
   U_V_status = (bool *)shmat(U_V_status_id, 0, SHM_RND);
+  U_V_sample = (bool *)shmat(U_V_sample_id, 0, SHM_RND);
           
   SEMAPHORE sem(2);
   sem.V(MUTEX);
@@ -92,6 +95,7 @@ int main()
   // Initilaze Shared Stuff
   *shmid_queue_ptr = 0;
   *U_V_status = true;
+  *U_V_sample = true;
 
   if (fork())
   {
@@ -106,13 +110,13 @@ int main()
         {
           // Parent Process
           cout << RESET << BOLDWHITE << "Parent\n" << RESET;
-          parent_main(sem , shmid_queue , shmid_queue_ptr , U_V_status);
+          parent_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
         }
         else
         {
           // Child 4
           cout << BOLDYELLOW << "P4\n" << RESET;
-          child_4_main(sem , shmid_queue , shmid_queue_ptr , U_V_status);
+          child_4_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
           exit(0);
         }
       }
@@ -120,7 +124,7 @@ int main()
       {
         // Child 3
         cout << BOLDGREEN << "P3\n" << RESET;
-        child_3_main(sem , shmid_queue , shmid_queue_ptr , U_V_status);
+        child_3_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
         exit(0);
       }
     }
@@ -128,7 +132,7 @@ int main()
     {
       // Child 2
       cout << BOLDBLUE << "P2\n" << RESET;
-      child_2_main(sem , shmid_queue , shmid_queue_ptr , U_V_status);
+      child_2_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
       exit(0);
     }
   }
@@ -136,7 +140,7 @@ int main()
   {
     // Child 1
     cout << BOLDRED << "P1\n" << RESET;
-    child_1_main(sem , shmid_queue , shmid_queue_ptr , U_V_status);
+    child_1_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
     exit(0);
   }
   
@@ -148,7 +152,7 @@ int main()
 /*****************************************************
  *          Main Functions for Processes             * 
  *****************************************************/
-void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
+void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 { 
   printf("=============START===============\n");
   bool flag;
@@ -165,7 +169,7 @@ void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , boo
   }
 }
 
-void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
+void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {
   while(running)
   {
@@ -182,8 +186,9 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //===================================================
     sem.P(MUTEX);
       sleep(3);
-      if(*U_V_status == true)
+      if(*U_V_status == true && *U_V_sample == true)
       {
+        *U_V_sample = false;
         *U_V_status = false;
         // Shift from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
@@ -197,6 +202,7 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
       }
       else
       {
+        *U_V_sample = true;
         // Remove from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
@@ -214,8 +220,9 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
   }
 }
 
-void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
+void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {  
+  sleep(2);
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -230,10 +237,12 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //               Start Critical Section
     //===================================================
     sem.P(MUTEX);
+      
       sleep(3);
-      if(*U_V_status == true)
+      if(*U_V_status == true && *U_V_sample == true)
       {
         *U_V_status = false;
+        *U_V_sample = false;
         // Shift queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
@@ -246,6 +255,7 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
       }
       else
       {
+        *U_V_sample = true;
         // Remove from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
@@ -263,8 +273,9 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
   }
 }
 
-void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
+void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {  
+  /*
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -309,11 +320,12 @@ void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //===================================================
     //                End Critical Section
     //=================================================== 
-  }
+  }*/
 }
 
-void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status)
+void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {
+  /*
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -358,5 +370,5 @@ void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //===================================================
     //                End Critical Section
     //=================================================== 
-  }
+  }*/
 }
