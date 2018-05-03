@@ -53,7 +53,7 @@ void U(void)
 }
 void V(void)
 {
-  sleep(2);
+  sleep(10);
 }
 
 //==================================
@@ -87,10 +87,11 @@ int main()
   U_V_status = (bool *)shmat(U_V_status_id, 0, SHM_RND);
   U_V_sample = (bool *)shmat(U_V_sample_id, 0, SHM_RND);
           
-  SEMAPHORE sem(2);
+  SEMAPHORE sem(4);
   sem.V(MUTEX);
-  //sem.V(MUTEX);
-  sem.V(MUTUX_STATUS);
+  sem.V(MUTEX);
+  sem.V(MUTUX_U);
+  sem.V(MUTUX_V);
   
   // Initilaze Shared Stuff
   *shmid_queue_ptr = 0;
@@ -158,14 +159,6 @@ void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , boo
   bool flag;
   while(running)
   {
-    sleep(2);
-    printf( RESET "| %c | %c | %c | %c |  PTR: %d\n" , 
-            *(shmid_queue+0),
-            *(shmid_queue+1),
-            *(shmid_queue+2),
-            *(shmid_queue+3),
-            *(shmid_queue_ptr)
-            );
   }
 }
 
@@ -181,48 +174,49 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     // Check if Top
     while(*(shmid_queue) != '1');
     
+    sem.P(MUTEX);
     //===================================================
     //               Start Critical Section
     //===================================================
-    sem.P(MUTEX);
-      sleep(3);
-      if(*U_V_status == true && *U_V_sample == true)
-      {
-        *U_V_sample = false;
+    
+    if(*U_V_status == true)
+    {
+      *U_V_status = false;
+      sem.P(MUTUX_U);
         *U_V_status = false;
         // Shift from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-        
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;       
         printf( BOLDRED "\tP1 RUNNING A" RESET);
-        U();
-        *U_V_status = true;
-      }
+        U();       
+      sem.V(MUTUX_U);
+      *U_V_status = true;
+     }
       else
       {
-        *U_V_sample = true;
-        // Remove from queue & Decr PTR
-        *(shmid_queue) = *(shmid_queue + 1);
-        *(shmid_queue + 1) = *(shmid_queue + 2);
-        *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        sem.P(MUTUX_V);
+          // Remove from queue & Decr PTR
+          *(shmid_queue) = *(shmid_queue + 1);
+          *(shmid_queue + 1) = *(shmid_queue + 2);
+          *(shmid_queue + 2) = *(shmid_queue + 3);
+          (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
         
-        printf( BOLDRED "\tP1 RUNNING B" RESET );
-        V();
+          printf( BOLDRED "\tP1 RUNNING B" RESET );
+          V();
+        sem.V(MUTUX_V);
       }
       printf( BOLDRED "\n\tP1 DONE\n" RESET );
-    sem.V(MUTEX);
     //===================================================
     //                End Critical Section
-    //=================================================== 
+    //=================================================== */
+    sem.V(MUTEX);
   }
 }
 
 void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {  
-  sleep(2);
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -233,17 +227,16 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     // Check if Top
     while(*(shmid_queue) != '2');
     
+    sem.P(MUTEX);
     //===================================================
     //               Start Critical Section
     //===================================================
-    sem.P(MUTEX);
-      
-      sleep(3);
-      if(*U_V_status == true && *U_V_sample == true)
-      {
+    if(*U_V_status == true)
+    {
+      *U_V_status = false;
+      sem.P(MUTUX_U);
         *U_V_status = false;
-        *U_V_sample = false;
-        // Shift queue & Decr PTR
+        // Shift from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
@@ -251,31 +244,33 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
         
         printf( BOLDBLUE "\tP2 RUNNING A" RESET);
         U();
-        *U_V_status = true;
-      }
+      sem.V(MUTUX_U);
+      *U_V_status = true;
+     }
       else
       {
-        *U_V_sample = true;
-        // Remove from queue & Decr PTR
-        *(shmid_queue) = *(shmid_queue + 1);
-        *(shmid_queue + 1) = *(shmid_queue + 2);
-        *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+        sem.P(MUTUX_V);
+          // Remove from queue & Decr PTR
+          *(shmid_queue) = *(shmid_queue + 1);
+          *(shmid_queue + 1) = *(shmid_queue + 2);
+          *(shmid_queue + 2) = *(shmid_queue + 3);
+          (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
         
-        printf( BOLDBLUE "\tP2 RUNNING B" RESET );
-        V();
+          printf( BOLDBLUE "\tP2 RUNNING B" RESET );
+          V();
+        sem.V(MUTUX_V);
       }
       printf( BOLDBLUE "\n\tP2 DONE\n" RESET );
-    sem.V(MUTEX);
     //===================================================
     //                End Critical Section
-    //=================================================== 
+    //===================================================
+    sem.V(MUTEX);
   }
 }
 
 void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {  
-  /*
+  
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -286,46 +281,48 @@ void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     // Check if Top
     while(*(shmid_queue) != '3');
     
+    sem.P(MUTEX);
     //===================================================
     //               Start Critical Section
     //===================================================
-    sem.P(MUTEX);
-      sleep(3);
-      if(*U_V_status == true)
-      {
+    if(*U_V_status == true)
+    {
+      *U_V_status = false;
+      sem.P(MUTUX_U); 
         *U_V_status = false;
-        // Shift queue & Decr PTR
+        // Shift from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-        
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1; 
         printf( BOLDGREEN "\tP3 RUNNING A" RESET);
         U();
-        *U_V_status = true;
-      }
+      sem.V(MUTUX_U);
+      *U_V_status = true;
+     }
       else
       {
-        // Remove from queue & Decr PTR
-        *(shmid_queue) = *(shmid_queue + 1);
-        *(shmid_queue + 1) = *(shmid_queue + 2);
-        *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-        
-        printf( BOLDGREEN "\tP3 RUNNING B" RESET );
-        V();
+        sem.P(MUTUX_V);
+          // Remove from queue & Decr PTR
+          *(shmid_queue) = *(shmid_queue + 1);
+          *(shmid_queue + 1) = *(shmid_queue + 2);
+          *(shmid_queue + 2) = *(shmid_queue + 3);
+          (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+          printf( BOLDGREEN "\tP3 RUNNING B" RESET );
+          V();
+        sem.V(MUTUX_V);
       }
       printf( BOLDGREEN "\n\tP3 DONE\n" RESET );
-    sem.V(MUTEX);
     //===================================================
     //                End Critical Section
-    //=================================================== 
-  }*/
+    //===================================================
+    sem.V(MUTEX);
+  }
 }
 
 void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
 {
-  /*
+  
   while(running)
   {
     // Add to Queue & Incr PTR
@@ -335,40 +332,42 @@ void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     
     // Check if Top
     while(*(shmid_queue) != '4');
-    
+
+    sem.P(MUTEX);
     //===================================================
     //               Start Critical Section
     //===================================================
-    sem.P(MUTEX);
-      sleep(3);
-      if(*U_V_status == true)
-      {
+    if(*U_V_status == true)
+    {
+      *U_V_status = false;
+      sem.P(MUTUX_U); 
         *U_V_status = false;
-        // Shift queue & Decr PTR
+        // Shift from queue & Decr PTR
         *(shmid_queue) = *(shmid_queue + 1);
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-        
+        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1; 
         printf( BOLDYELLOW "\tP4 RUNNING A" RESET);
         U();
-        *U_V_status = true;
-      }
+      sem.V(MUTUX_U);
+      *U_V_status = true;
+     }
       else
       {
-        // Remove from queue & Decr PTR
-        *(shmid_queue) = *(shmid_queue + 1);
-        *(shmid_queue + 1) = *(shmid_queue + 2);
-        *(shmid_queue + 2) = *(shmid_queue + 3);
-        (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-        
-        printf( BOLDYELLOW "\tP4 RUNNING B" RESET );
-        V();
+        sem.P(MUTUX_V);
+          // Remove from queue & Decr PTR
+          *(shmid_queue) = *(shmid_queue + 1);
+          *(shmid_queue + 1) = *(shmid_queue + 2);
+          *(shmid_queue + 2) = *(shmid_queue + 3);
+          (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
+          printf( BOLDYELLOW "\tP4 BOLDYELLOW B" RESET );
+          V();
+        sem.V(MUTUX_V);
       }
       printf( BOLDYELLOW "\n\tP4 DONE\n" RESET );
-    sem.V(MUTEX);
     //===================================================
     //                End Critical Section
-    //=================================================== 
-  }*/
+    //===================================================
+    sem.V(MUTEX);
+  }
 }
