@@ -12,8 +12,9 @@
 #include <sys/wait.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <X11/Xlib.h>
+#include <time.h>
 #include "semaphore.h"
+#include <string>
 
 using namespace std;
 
@@ -38,7 +39,7 @@ using namespace std;
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 
-enum {MUTEX , MUTUX_STATUS , MUTUX_U , MUTUX_V}; 
+enum {MUTEX , MUTUX_U , MUTUX_V}; 
 const int BUFFSIZE = 4; // 4 Processes 
 const int X_div = 827395609; 
 const int Y_div = 962094883;  
@@ -49,49 +50,55 @@ const int Y_div = 962094883;
 // break: generates a random integer less than 100 or is divisible by 827395609
 void U(void)
 {
+  /* initialize random seed: */
+  srand(time(NULL));
   int x = rand();
   while(!(x < 100 || (x % X_div) == 0)){x = rand();}
-  sleep(1);
 }
 // break: generates a random integer less than 100 or is divisible by 962094883
 void V(void)
 {
+  /* initialize random seed: */
+  srand(time(NULL));  
   int y = rand();
-  while(!(y < 100 || (y % X_div) == 0)){y = rand();}
-  sleep(1);
+  while(!(y < 100 || (y % Y_div) == 0)){y = rand();}
 }
 
 //==================================
 //  Main Functions for Processes   =
 //==================================
-void parent_main(SEMAPHORE&  , char* , int* , bool* , bool*);
-void child_1_main(SEMAPHORE& , char* , int* , bool* , bool*);
-void child_2_main(SEMAPHORE& , char* , int* , bool* , bool*);
-void child_3_main(SEMAPHORE& , char* , int* , bool* , bool*);
-void child_4_main(SEMAPHORE& , char* , int* , bool* , bool*);
+void parent_main(SEMAPHORE&  , char* , int* , bool* , int*);
+void child_1_main(SEMAPHORE& , char* , int* , bool* , int*);
+void child_2_main(SEMAPHORE& , char* , int* , bool* , int*);
+void child_3_main(SEMAPHORE& , char* , int* , bool* , int*);
+void child_4_main(SEMAPHORE& , char* , int* , bool* , int*);
 
 
 int main()
 {  
+  // Create Variables
   pid_t wpid=0;
   int status = 0;
-  int shmid_queue_id , shmid_queue_ptr_id , U_V_status_id , U_V_sample_id;
+  int shmid_queue_id , shmid_queue_ptr_id , U_V_status_id , kill_command_id;
   
   char* shmid_queue;
   int* shmid_queue_ptr;
   bool* U_V_status;
-  bool* U_V_sample;
+  int* kill_command;
   
+  // Setting Up Shared Data
   shmid_queue_id = shmget(IPC_PRIVATE, BUFFSIZE*sizeof(char), PERMS);
   shmid_queue_ptr_id = shmget(IPC_PRIVATE, sizeof(int), PERMS);
   U_V_status_id = shmget(IPC_PRIVATE, sizeof(bool), PERMS);
-  U_V_sample_id = shmget(IPC_PRIVATE, sizeof(bool), PERMS);
+  kill_command_id = shmget(IPC_PRIVATE, sizeof(bool), PERMS);
   
   shmid_queue = (char *)shmat(shmid_queue_id, 0, SHM_RND);
   shmid_queue_ptr = (int *)shmat(shmid_queue_ptr_id, 0, SHM_RND);
   U_V_status = (bool *)shmat(U_V_status_id, 0, SHM_RND);
-  U_V_sample = (bool *)shmat(U_V_sample_id, 0, SHM_RND);
+  kill_command = (int*)shmat(kill_command_id, 0, SHM_RND);
+
           
+  // Mutux Initilazing
   SEMAPHORE sem(4);
   sem.V(MUTEX);
   sem.V(MUTEX);
@@ -101,8 +108,8 @@ int main()
   // Initilaze Shared Stuff
   *shmid_queue_ptr = 0;
   *U_V_status = true;
-  *U_V_sample = true;
-
+  *kill_command = 0;
+  
   if (fork())
   {
     // Parent Process
@@ -115,39 +122,36 @@ int main()
         if(fork())
         {
           // Parent Process
-          cout << RESET << BOLDWHITE << "Parent\n" << RESET;
-          parent_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
+          cout << RESET << BOLDWHITE << "Parent Alive\n" << RESET;
+          parent_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , kill_command);
+          cout << RESET << BOLDWHITE << "Parent Died\n" << RESET;
         }
         else
         {
           // Child 4
-          cout << BOLDYELLOW << "P4\n" << RESET;
-          child_4_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
-          exit(0);
+          cout << BOLDYELLOW << "P4 Alive\n" << RESET;
+          child_4_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , kill_command);
         }
       }
       else
       {
         // Child 3
-        cout << BOLDGREEN << "P3\n" << RESET;
-        child_3_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
-        exit(0);
+        cout << BOLDGREEN << "P3 Alive\n" << RESET;
+        child_3_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , kill_command);
       }
     }
     else
     {
       // Child 2
-      cout << BOLDBLUE << "P2\n" << RESET;
-      child_2_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
-      exit(0);
+      cout << BOLDBLUE << "P2 Alive\n" << RESET;
+      child_2_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , kill_command);
     }
   }
   else
   {
     // Child 1
     cout << BOLDRED << "P1\n" << RESET;
-    child_1_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , U_V_sample);
-    exit(0);
+    child_1_main(sem , shmid_queue , shmid_queue_ptr , U_V_status , kill_command);
   }
   
   // wait for child to finish
@@ -158,22 +162,25 @@ int main()
 /*****************************************************
  *          Main Functions for Processes             * 
  *****************************************************/
-void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
+void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , int* kill_command)
 { 
-  printf("=============START===============\n");
-  bool flag;
-  while(running)
+  string kill_string;
+  while(running && *kill_command != 666)
   {
-    sleep(1);
-    printf( RESET "\n\tQueue: | %c | %c | %c | %c | \n\n" , 
-            *(shmid_queue) , *(shmid_queue+1) ,
-            *(shmid_queue+2) , *(shmid_queue+3));
+    //printf( RESET "\n\tQueue: | %c | %c | %c | %c | \n\n" , 
+    //        *(shmid_queue) , *(shmid_queue+1) ,
+    //        *(shmid_queue+2) , *(shmid_queue+3));
+    cin >> kill_string;
+    if(kill_string.compare("!wq") == 0)
+      *kill_command = 666;
+    cout << BOLDMAGENTA << *kill_command << RESET << endl;
+    
   }
 }
 
-void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
+void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , int* kill_command)
 {
-  while(running)
+  while(running && *kill_command != 666)
   {
     // Add to Queue & Incr PTR
     *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '1'; 
@@ -198,7 +205,7 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
         (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;       
-        printf( BOLDRED "\tP1 RUNNING A" RESET);
+        printf( BOLDRED "\n\tP1 RUNNING" RESET);
         U();       
       sem.V(MUTUX_U);
       *U_V_status = true;
@@ -212,7 +219,7 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
           *(shmid_queue + 2) = *(shmid_queue + 3);
           (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
         
-          printf( BOLDRED "\tP1 RUNNING B" RESET );
+          printf( BOLDRED "\n\tP1 RUNNING" RESET );
           V();
         sem.V(MUTUX_V);
       }
@@ -222,11 +229,13 @@ void child_1_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //=================================================== */
     sem.V(MUTEX);
   }
+  printf( BOLDRED "\nP1 Died\n" RESET );
+  exit(0);
 }
 
-void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
+void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , int* kill_command)
 {  
-  while(running)
+  while(running && *kill_command != 666)
   {
     // Add to Queue & Incr PTR
     *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '2'; 
@@ -251,7 +260,7 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
         *(shmid_queue + 2) = *(shmid_queue + 3);
         (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
         
-        printf( BOLDBLUE "\tP2 RUNNING A" RESET);
+        printf( BOLDBLUE "\n\tP2 RUNNING" RESET);
         U();
       sem.V(MUTUX_U);
       *U_V_status = true;
@@ -265,7 +274,7 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
           *(shmid_queue + 2) = *(shmid_queue + 3);
           (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
         
-          printf( BOLDBLUE "\tP2 RUNNING B" RESET );
+          printf( BOLDBLUE "\n\tP2 RUNNING" RESET );
           V();
         sem.V(MUTUX_V);
       }
@@ -275,12 +284,13 @@ void child_2_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //===================================================
     sem.V(MUTEX);
   }
+  cout << BOLDBLUE << "P2 Died\n" << RESET;
+  exit(0);
 }
 
-void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
+void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , int* kill_command)
 {  
-  
-  while(running)
+  while(running && *kill_command != 666)
   {
     // Add to Queue & Incr PTR
     *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '3'; 
@@ -304,7 +314,7 @@ void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
         (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1; 
-        printf( BOLDGREEN "\tP3 RUNNING A" RESET);
+        printf( BOLDGREEN "\n\tP3 RUNNING" RESET);
         U();
       sem.V(MUTUX_U);
       *U_V_status = true;
@@ -317,22 +327,23 @@ void child_3_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
           *(shmid_queue + 1) = *(shmid_queue + 2);
           *(shmid_queue + 2) = *(shmid_queue + 3);
           (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-          printf( BOLDGREEN "\tP3 RUNNING B" RESET );
+          printf( BOLDGREEN "\n\tP3 RUNNING" RESET );
           V();
         sem.V(MUTUX_V);
       }
-      printf( BOLDGREEN "\n\tP3 DONE\n" RESET );
+     printf( BOLDGREEN "\n\tP3 DONE\n" RESET );
     //===================================================
     //                End Critical Section
     //===================================================
     sem.V(MUTEX);
   }
+  cout << BOLDGREEN << "P3 Died\n" << RESET;
+  exit(0);
 }
 
-void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , bool* U_V_sample )
+void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bool* U_V_status , int* kill_command)
 {
-  
-  while(running)
+  while(running && *kill_command != 666)
   {
     // Add to Queue & Incr PTR
     *(shmid_queue + ((*shmid_queue_ptr)%BUFFSIZE)) = '4'; 
@@ -356,7 +367,7 @@ void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
         *(shmid_queue + 1) = *(shmid_queue + 2);
         *(shmid_queue + 2) = *(shmid_queue + 3);
         (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1; 
-        printf( BOLDYELLOW "\tP4 RUNNING A" RESET);
+        printf( BOLDYELLOW "\n\tP4 RUNNING" RESET);
         U();
       sem.V(MUTUX_U);
       *U_V_status = true;
@@ -369,7 +380,7 @@ void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
           *(shmid_queue + 1) = *(shmid_queue + 2);
           *(shmid_queue + 2) = *(shmid_queue + 3);
           (*shmid_queue_ptr) = (*shmid_queue_ptr) - 1;
-          printf( BOLDYELLOW "\tP4 BOLDYELLOW B" RESET );
+          printf( BOLDYELLOW "\n\tP4 RUNNING" RESET );
           V();
         sem.V(MUTUX_V);
       }
@@ -379,4 +390,6 @@ void child_4_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , bo
     //===================================================
     sem.V(MUTEX);
   }
+  cout << BOLDYELLOW << "P4 Died\n" << RESET;
+  exit(0);
 }
