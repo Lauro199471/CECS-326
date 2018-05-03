@@ -18,10 +18,6 @@
 using namespace std;
 
 #define running 1
-#define U_DIV 827395609
-#define V_DIV 962094883
-const int BUFFSIZE = 4; // 4 Processes 
-
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -43,17 +39,26 @@ const int BUFFSIZE = 4; // 4 Processes
 
 
 enum {MUTEX , MUTUX_STATUS , MUTUX_U , MUTUX_V}; 
+const int BUFFSIZE = 4; // 4 Processes 
+const int X_div = 827395609; 
+const int Y_div = 962094883;  
 
 //==================================
 //         U() and V()             =
 //==================================
+// break: generates a random integer less than 100 or is divisible by 827395609
 void U(void)
 {
+  int x = rand();
+  while(!(x < 100 || (x % X_div) == 0)){x = rand();}
   sleep(1);
 }
+// break: generates a random integer less than 100 or is divisible by 962094883
 void V(void)
 {
-  sleep(10);
+  int y = rand();
+  while(!(y < 100 || (y % X_div) == 0)){y = rand();}
+  sleep(1);
 }
 
 //==================================
@@ -159,6 +164,10 @@ void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , boo
   bool flag;
   while(running)
   {
+    sleep(1);
+    printf( RESET "\n\tQueue: | %c | %c | %c | %c | \n\n" , 
+            *(shmid_queue) , *(shmid_queue+1) ,
+            *(shmid_queue+2) , *(shmid_queue+3));
   }
 }
 
