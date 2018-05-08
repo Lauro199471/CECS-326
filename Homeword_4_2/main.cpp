@@ -17,6 +17,7 @@
 #include <string>
 #include <ctime>    // For time()
 #include <cstdlib>  // For srand() and rand()
+#include <time.h>
 
 using namespace std;
 
@@ -43,6 +44,18 @@ using namespace std;
 
 enum {sem_A0 , sem_A1 , sem_A2 , sem_B0 , sem_B1 , sem_B2}; 
 const int BUFFSIZE = 6; // 6 Processes 
+
+// Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+const std::string currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+
+    return buf;
+}
+
 
 //==================================
 //  Main Functions for Processes   =
@@ -170,7 +183,7 @@ void parent_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_
 void child_1_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_A2 , bool* taken_B0 , bool* taken_B1 , bool* taken_B2)
 {
   int x = 0;
-  //cout << BOLDRED << "Robot A\n" << RESET;
+  
   while(running)
   { 
     if(*taken_A0 == false && *taken_A1 == false)
@@ -185,7 +198,7 @@ void child_1_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
       //=================================================== 
       srand(time(NULL));
       x = rand()%15+1;
-      cout << BOLDRED << "Robot A : A0 " << x << RESET << endl;
+      cout << BOLDRED << "Robot A : A0 " << x << RESET << " " << currentDateTime() << endl;
       sleep(x);
       //===================================================
       //                End Critical Section
@@ -196,7 +209,7 @@ void child_1_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
       *taken_A1 = false;
     }
     
-    sleep(3);
+    
     if(*taken_B0 == false && *taken_A0 == false)
     {
       *taken_A0 = true;
@@ -209,7 +222,7 @@ void child_1_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
       //=================================================== 
       srand(time(NULL));
       x = rand()%15+1;
-      cout << BOLDRED << "Robot A : B0 " << x << RESET << endl;
+      cout << BOLDRED << "Robot A : B0 " << x << RESET << " " << currentDateTime() << endl;
       sleep(x);
       //===================================================
       //                End Critical Section
@@ -226,7 +239,7 @@ void child_1_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
 void child_2_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_A2 , bool* taken_B0 , bool* taken_B1 , bool* taken_B2)
 { 
   int x = 0;
-  //cout << BOLDBLUE << "Robot B\n" << RESET;
+  
   while(running)
   { 
     
@@ -241,9 +254,9 @@ void child_2_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
       // sleep function will simulate the robot stuff
       //=================================================== 
       srand(time(0));
-      x = rand()%15+4;
-      cout << BOLDBLUE << "Robot B : B0 1" << RESET << endl;
-      sleep(1);
+      x = (rand() + 4 )%15+1;
+      cout << BOLDBLUE << "Robot B : B0 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
       //===================================================
       //                End Critical Section
       //===================================================
@@ -263,9 +276,9 @@ void child_2_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
       // sleep function will simulate the robot stuff
       //=================================================== 
       srand(time(0));
-      x = rand()%15+4;
-      cout << BOLDBLUE << "Robot B : B1 1" << RESET << endl;
-      sleep(1);
+      x = (rand() + 4 )%15+1;
+      cout << BOLDBLUE << "Robot B : B1 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
       //===================================================
       //                End Critical Section
       //===================================================
@@ -279,89 +292,159 @@ void child_2_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken
 // Robot C
 void child_3_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_A2 , bool* taken_B0 , bool* taken_B1 , bool* taken_B2)
 { 
-  cout << BOLDGREEN << "Robot C\n" << RESET;
-  /*
+  int x = 0;
+  
   while(running)
   {
-    sem.P(sem_C);
+    if(*taken_A1 == false)
+    {
+      *taken_A1 = true;
+     
+      sem.P(sem_A1);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(0));
+      x = (rand() + 2 )%15 + 1;
+      cout << BOLDGREEN << "Robot C : A1 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_A1);
+      *taken_A1 = false;
+    }
     
-    //===================================================
-    //               Start Critical Section
-    //===================================================  
-    cout << RESET << "C" << " " << endl;
-    sleep(1);
-    if(*print_process == 'A')
+    if(*taken_B1 == false)
     {
-      sem.V(MUTEX);
-      sem.V(sem_B);
+      *taken_B1 = true;
+      
+      sem.P(sem_B1);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(0));
+      x = (rand() + 4 )%15 + 1;
+      cout << BOLDGREEN << "Robot C : B1 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_B1);
+      *taken_B1 = false;
     }
-    else
-    {
-      sem.V(MUTEX);
-      sem.V(sem_A);
-    }
-    //===================================================
-    //                End Critical Section
-    //===================================================
-  }*/
+  }
 }
 
 // Robot D
 void child_4_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_A2 , bool* taken_B0 , bool* taken_B1 , bool* taken_B2)
 { 
-  cout << BOLDYELLOW << "Robot D\n" << RESET;
-  /*
+  int x = 0;
+  
   while(running)
   {
-    sem.P(sem_C);
+    if(*taken_A0 == false && *taken_A1 == false)
+    {
+      *taken_A0 = true;
+      *taken_A1 = true;
+      
+      sem.P(sem_A0);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(NULL));
+      x = (rand()+7)%15+1;
+      cout << BOLDYELLOW << "Robot D : A0 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_A0);
+      *taken_A0 = false;
+      *taken_A1 = false;
+    }
     
-    //===================================================
-    //               Start Critical Section
-    //===================================================  
-    cout << RESET << "C" << " " << endl;
-    sleep(1);
-    if(*print_process == 'A')
+    
+    if(*taken_B2 == false && *taken_B1 == false && *taken_A2 == false)
     {
-      sem.V(MUTEX);
-      sem.V(sem_B);
+      *taken_B1 = true;
+      *taken_B2 = true;
+      *taken_A2 = true;
+      
+      sem.P(sem_B2);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(NULL));
+      x = (rand()+7)%15+1;
+      cout << BOLDYELLOW << "Robot D : B2 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_B2);
+      *taken_B1 = false;
+      *taken_B2 = false;
+      *taken_A2 = false;
     }
-    else
-    {
-      sem.V(MUTEX);
-      sem.V(sem_A);
-    }
-    //===================================================
-    //                End Critical Section
-    //===================================================
-  }*/
+  }
 }
 
 // Robot E
 void child_5_main(SEMAPHORE &sem , bool* taken_A0 , bool* taken_A1 , bool* taken_A2 , bool* taken_B0 , bool* taken_B1 , bool* taken_B2)
 { 
-  cout << BOLDMAGENTA << "Robot E\n" << RESET;
-  /*
+  int x = 0;
+  
   while(running)
   {
-    sem.P(sem_C);
+    if(*taken_A1 == false)
+    {
+      *taken_A1 = true;
+      
+      sem.P(sem_A1);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(0));
+      x = (rand() + 8 )%15 + 1;
+      cout << BOLDMAGENTA << "Robot E : A1 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_A1);
+      *taken_A1 = false;
+    }
     
-    //===================================================
-    //               Start Critical Section
-    //===================================================  
-    cout << RESET << "C" << " " << endl;
-    sleep(1);
-    if(*print_process == 'A')
+    if(*taken_A2 == false)
     {
-      sem.V(MUTEX);
-      sem.V(sem_B);
+      *taken_A2 = true;
+      
+      sem.P(sem_A2);
+      //===================================================
+      //               Start Critical Section
+      // sleep function will simulate the robot stuff
+      //=================================================== 
+      srand(time(0));
+      x = (rand() + 8 )%15 + 1;
+      cout << BOLDMAGENTA << "Robot E : A2 " << x << RESET << " " << currentDateTime() << endl;
+      sleep(x);
+      //===================================================
+      //                End Critical Section
+      //===================================================
+      
+      sem.V(sem_A2);
+      *taken_A2 = false;
     }
-    else
-    {
-      sem.V(MUTEX);
-      sem.V(sem_A);
-    }
-    //===================================================
-    //                End Critical Section
-    //===================================================
-  }*/
+  }
 }

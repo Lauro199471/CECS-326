@@ -54,6 +54,7 @@ void U(void)
   srand(time(NULL));
   int x = rand();
   while(!(x < 100 || (x % X_div) == 0)){x = rand();}
+
 }
 // break: generates a random integer less than 100 or is divisible by 962094883
 void V(void)
@@ -62,6 +63,7 @@ void V(void)
   srand(time(NULL));  
   int y = rand();
   while(!(y < 100 || (y % Y_div) == 0)){y = rand();}
+
 }
 
 //==================================
@@ -167,14 +169,13 @@ void parent_main(SEMAPHORE &sem , char* shmid_queue , int* shmid_queue_ptr , boo
   string kill_string;
   while(running && *kill_command != 666)
   {
+    //sleep(1);
     //printf( RESET "\n\tQueue: | %c | %c | %c | %c | \n\n" , 
     //        *(shmid_queue) , *(shmid_queue+1) ,
     //        *(shmid_queue+2) , *(shmid_queue+3));
     cin >> kill_string;
     if(kill_string.compare("!wq") == 0)
       *kill_command = 666;
-    cout << BOLDMAGENTA << *kill_command << RESET << endl;
-    
   }
 }
 
